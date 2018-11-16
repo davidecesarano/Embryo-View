@@ -2,14 +2,24 @@
     
     namespace Embryo\View;
     
+    use Embryo\Http\Factory\StreamFactory;
+    use Embryo\View\CompilerTrait;
     use Psr\Http\Message\ResponseInterface;
+    use Psr\Http\Message\StreamFactoryInterface;
 
     class View 
     {
+        use CompilerTrait;
+
         /**
          * @var string $templatePath
          */
         private $templatePath;
+
+        /**
+         * @var StreamFactoryInterface $streamFactory
+         */
+        private $streamFactory;
 
         /**
          * Set template path.
@@ -17,10 +27,11 @@
          * @param string $templatePath
          * @return self
          */
-        public function __construct(string $templatePath)
+        public function __construct(string $templatePath, string $compilerPath, StreamFactoryInterface $streamFactory = null)
         {
-            $this->templatePath = rtrim($templatePath, '/');
-            return $this;
+            $this->templatePath  = rtrim($templatePath, '/');
+            $this->compilerPath  = rtrim($compilerPath, '/');
+            $this->streamFactory = ($streamFactory) ? $streamFactory : new StreamFactory;
         }
         
         /**
@@ -33,17 +44,35 @@
          */
         public function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
         {
+            ob_start();
             try {
 
-                ob_start();
-                $this->include($template, $data);
-                $output = ob_get_clean();
+                //$data    = $this->setData($data);
+                $content = $this->content($template);
+                $content = $this->compile($content);
+                $stream  = $this->stream($template, $content);
+                $file    = $stream->getMetadata('uri');
 
+                extract($data);
+                require $file;
+                
             } catch(\Throwable $e) {
-                ob_end_clean();
                 throw $e;
+            } finally {
+                $output = ob_get_clean();
             }
-            return $response->write($output);
+            
+            $body = $response->getBody();
+            $body->write($output);
+            return $response->withBody($body);
+        }
+
+        public function include(string $template, array $data)
+        {
+            ob_start();
+            extract($data);
+            require $this->templatePath.'/'.$template.'.php';
+            ob_get_contents();
         }
 
         /**
@@ -55,18 +84,39 @@
          * @throws InvalidArgumentExceptions
          * @throws RuntimeException
          */
-        public function include(string $template, array $data = [])
+        private function content(string $template)
         {
-            if (isset($data['template'])) {
-                throw new \InvalidArgumentException("Duplicate template key found");
-            }
-    
             $file = $this->templatePath.'/'.$template.'.php';
             if (!is_file($file)) {
                 throw new \RuntimeException("View cannot render $file because the template does not exist");
             }
 
-            extract($data);
-            include $file;
+            $stream = $this->streamFactory->createStreamFromFile($file, 'r');
+            return $stream->getContents();
+        }
+
+        private function setData(array $data)
+        {
+            if (isset($data['template'])) {
+                throw new \InvalidArgumentException("Duplicate template key found");
+            }
+
+            foreach ($data as $key => $value)
+            {
+                $this->data[$key] = $value;
+            }
+        }
+
+        private function getData()
+        {
+            return $this->data;
+        }
+
+        private function stream($template, $content)
+        {
+            $file   = $this->compilerPath.'/'.md5($template).'.php';
+            $stream = $this->streamFactory->createStreamFromFile($file, 'w');
+            $stream->write($content);
+            return $stream;
         }
     }
