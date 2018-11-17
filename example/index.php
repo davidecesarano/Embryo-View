@@ -11,7 +11,7 @@
     $compilerPath  = __DIR__.DIRECTORY_SEPARATOR.'compilers';
     $view          = new View($templatePath, $compilerPath);
 
-    $response = $view->render($response, 'page', ['message' => 'Hello World', 'a' => 2]);
+    $response = $view->render($response, 'page', ['message' => 'Hello test', 'a' => 2]);
 
     $emitter = new Emitter;
     $emitter->emit($response);

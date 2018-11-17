@@ -3,13 +3,14 @@
     namespace Embryo\View;
     
     use Embryo\Http\Factory\StreamFactory;
-    use Embryo\View\CompilerTrait;
+    use Embryo\View\Traits\{CompilerTrait, StreamTrait};
     use Psr\Http\Message\ResponseInterface;
     use Psr\Http\Message\StreamFactoryInterface;
 
     class View 
     {
         use CompilerTrait;
+        use StreamTrait;
 
         /**
          * @var string $templatePath
@@ -44,18 +45,11 @@
          */
         public function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
         {
-            ob_start();
             try {
 
-                //$data    = $this->setData($data);
-                $content = $this->content($template);
-                $content = $this->compile($content);
-                $stream  = $this->stream($template, $content);
-                $file    = $stream->getMetadata('uri');
-
-                extract($data);
-                require $file;
-                
+                ob_start();
+                $this->include($template, $data);
+                                
             } catch(\Throwable $e) {
                 throw $e;
             } finally {
@@ -69,54 +63,16 @@
 
         public function include(string $template, array $data)
         {
-            ob_start();
-            extract($data);
-            require $this->templatePath.'/'.$template.'.php';
-            ob_get_contents();
-        }
-
-        /**
-         * Include template file with data.
-         *
-         * @param string $template
-         * @param array $data
-         * @return void
-         * @throws InvalidArgumentExceptions
-         * @throws RuntimeException
-         */
-        private function content(string $template)
-        {
-            $file = $this->templatePath.'/'.$template.'.php';
-            if (!is_file($file)) {
-                throw new \RuntimeException("View cannot render $file because the template does not exist");
-            }
-
-            $stream = $this->streamFactory->createStreamFromFile($file, 'r');
-            return $stream->getContents();
-        }
-
-        private function setData(array $data)
-        {
             if (isset($data['template'])) {
                 throw new \InvalidArgumentException("Duplicate template key found");
             }
 
-            foreach ($data as $key => $value)
-            {
-                $this->data[$key] = $value;
-            }
-        }
+            $content = $this->getContent($template);
+            $content = $this->compile($content);
+            $stream  = $this->setStream($template, $content);
+            $file    = $stream->getMetadata('uri');
 
-        private function getData()
-        {
-            return $this->data;
-        }
-
-        private function stream($template, $content)
-        {
-            $file   = $this->compilerPath.'/'.md5($template).'.php';
-            $stream = $this->streamFactory->createStreamFromFile($file, 'w');
-            $stream->write($content);
-            return $stream;
+            extract($data);
+            require $file;
         }
     }

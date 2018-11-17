@@ -1,6 +1,6 @@
 <?php 
 
-    namespace Embryo\View;
+    namespace Embryo\View\Traits;
 
     trait CompilerTrait
     {
