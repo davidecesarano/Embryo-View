@@ -1,21 +1,29 @@
 <?php 
     
+    /**
+     * View
+     */
+    
     namespace Embryo\View;
     
-    use Embryo\Http\Factory\StreamFactory;
-    use Embryo\View\Traits\{CompilerTrait, StreamTrait};
+    use Embryo\View\Traits\{CompilerReplaceTrait, CompilerStreamTrait};
     use Psr\Http\Message\ResponseInterface;
     use Psr\Http\Message\StreamFactoryInterface;
 
     class View 
     {
-        use CompilerTrait;
-        use StreamTrait;
+        use CompilerReplaceTrait;
+        use CompilerStreamTrait;
 
         /**
          * @var string $templatePath
          */
         private $templatePath;
+
+        /**
+         * @var string $templatePath
+         */
+        private $compilerPath;
 
         /**
          * @var StreamFactoryInterface $streamFactory
@@ -68,9 +76,8 @@
             }
 
             $content = $this->getContent($template);
-            $content = $this->compile($content);
-            $stream  = $this->setStream($template, $content);
-            $file    = $stream->getMetadata('uri');
+            $output  = $this->compile($content);
+            $file    = $this->setContent($template, $output);
 
             extract($data);
             require $file;

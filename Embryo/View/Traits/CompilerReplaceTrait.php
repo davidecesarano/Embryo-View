@@ -1,9 +1,16 @@
 <?php 
 
+    /**
+     * CompilerReplaceTrait
+     */
+    
     namespace Embryo\View\Traits;
 
-    trait CompilerTrait
+    trait CompilerReplaceTrait
     {
+        /**
+         * @var array $find
+         */
         private $find = [
             '/@include\((.*)\)/m',
             '/@if\((.*)\)/m',
@@ -21,6 +28,9 @@
             '/@php\s(.*)/m'
         ];
 
+        /**
+         * @var array $replace
+         */
         private $replace = [
             '<?php $this->include($1); ?>',
             '<?php if($1): ?>',
@@ -38,7 +48,14 @@
             '<?php $1; ?>'
         ];
 
-        protected function compile($buffer)
+        /**
+         * Compile template file replacing the
+         * alternative syntax in php code.
+         *
+         * @param string $buffer
+         * @return string
+         */
+        protected function compile($buffer): string
         {
             return preg_replace($this->find, $this->replace, $buffer);
         }
