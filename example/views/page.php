@@ -1,9 +1,7 @@
-@include('header', ['b' => 'cccccc'])
+@include('header', ['title' => 'Hello Worlds!'])
 
-<p>Ciao {{ $message }}</p>
-
-@if($a == 1)
-    <p>Ciao come stai?</p>
+@if($status == 1)
+    <p>Hi, status 1.</p>
 @else 
-    <p>Noooo</p>
+    <p>Hi, other status.</p>
 @endif
