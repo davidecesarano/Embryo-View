@@ -6,8 +6,8 @@
 
 # Requirements
 * PHP >= 7.1
-* A (PSR-7)[https://www.php-fig.org/psr/psr-7/] http message implementation and (PSR-17)[https://www.php-fig.org/psr/psr-17/] http factory implementation (ex. (Embryo-Http)[https://github.com/davidecesarano/Embryo-Http])
-* A PSR response emitter (ex. (Embryo-Emitter)[https://github.com/davidecesarano/Embryo-Emitter])
+* A [PSR-7](https://www.php-fig.org/psr/psr-7/) http message implementation and [PSR-17](https://www.php-fig.org/psr/psr-17/) http factory implementation (ex. [Embryo-Http](https://github.com/davidecesarano/Embryo-Http))
+* A PSR response emitter (ex. [Embryo-Emitter](https://github.com/davidecesarano/Embryo-Emitter))
 
 # Installation
 Using Composer:
