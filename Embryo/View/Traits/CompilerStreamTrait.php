@@ -2,6 +2,9 @@
 
     /**
      * CompilerStreamTrait
+     * 
+     * @author Davide Cesarano <davide.cesarano@unipegaso.it>
+     * @link   https://github.com/davidecesarano/embryo-view 
      */
     
     namespace Embryo\View\Traits;
@@ -9,8 +12,6 @@
     trait CompilerStreamTrait
     {
         /**
-         * Return content file.
-         * 
          * Get content from template file.
          *
          * @param string $template
@@ -29,8 +30,8 @@
         }        
 
         /**
-         * Set content compiler file and 
-         * return file.
+         * Set content in compiler file and 
+         * return it.
          * 
          * If the compiled file is older than a the template 
          * file recompiled the view and store it as a new 

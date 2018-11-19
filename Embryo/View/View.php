@@ -2,10 +2,14 @@
     
     /**
      * View
+     * 
+     * @author Davide Cesarano <davide.cesarano@unipegaso.it>
+     * @link   https://github.com/davidecesarano/embryo-view 
      */
     
     namespace Embryo\View;
     
+    use Embryo\Http\Factory\StreamFactory;
     use Embryo\View\Traits\{CompilerReplaceTrait, CompilerStreamTrait};
     use Psr\Http\Message\ResponseInterface;
     use Psr\Http\Message\StreamFactoryInterface;
@@ -44,7 +48,7 @@
         }
         
         /**
-         * Rendering view scripts in PSR Response.
+         * Render view in PSR Response.
          *
          * @param ResponseInterface $response
          * @param string $template
@@ -69,6 +73,15 @@
             return $response->withBody($body);
         }
 
+        /**
+         * Get content from view, compile it for replacing
+         * alternative syntax, extract data 
+         * and set compiler file.
+         *
+         * @param string $template
+         * @param array $data
+         * @return void
+         */
         public function include(string $template, array $data)
         {
             if (isset($data['template'])) {

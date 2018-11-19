@@ -2,6 +2,9 @@
 
     /**
      * CompilerReplaceTrait
+     * 
+     * @author Davide Cesarano <davide.cesarano@unipegaso.it>
+     * @link   https://github.com/davidecesarano/embryo-view 
      */
     
     namespace Embryo\View\Traits;
@@ -13,15 +16,15 @@
          */
         private $find = [
             '/@include\((.*)\)/m',
-            '/@if\((.*)\)/m',
+            '/@if\s?\((.*)\)/m',
             '/@else/m',
-            '/@elseif\((.*)\)/m',
+            '/@elseif\s?\((.*)\)/m',
             '/@endif/m',
-            '/@foreach\((.*)\)/m',
+            '/@foreach\s?\((.*)\)/m',
             '/@endforeach/m',
-            '/@for\((.*)\)/m',
+            '/@for\s?\((.*)\)/m',
             '/@endfor/m',
-            '/@while\((.*)\)/m',
+            '/@while\s?\((.*)\)/m',
             '/@endwhile/m',
             '/{{{\s([\$a-zA-Z_0-9\s:?]+)\s}}}/m',
             '/{{\s([\$a-zA-Z_0-9\s:?]+)\s}}/m',
@@ -55,7 +58,7 @@
          * @param string $buffer
          * @return string
          */
-        protected function compile($buffer): string
+        protected function compile(string $buffer): string
         {
             return preg_replace($this->find, $this->replace, $buffer);
         }
