@@ -15,20 +15,20 @@
          * @var array $find
          */
         private $find = [
-            '/@include\((.*)\)/m',
-            '/@if\s?\((.*)\)/m',
-            '/@else/m',
-            '/@elseif\s?\((.*)\)/m',
-            '/@endif/m',
-            '/@foreach\s?\((.*)\)/m',
-            '/@endforeach/m',
-            '/@for\s?\((.*)\)/m',
-            '/@endfor/m',
-            '/@while\s?\((.*)\)/m',
-            '/@endwhile/m',
-            '/{{{\s([\$a-zA-Z_0-9\s:?]+)\s}}}/m',
-            '/{{\s([\$a-zA-Z_0-9\s:?]+)\s}}/m',
-            '/@php\s(.*)/m'
+            '/@include\(([\s\S]+)\)/',
+            '/@if\s?\(([\s\S]+)\)/',
+            '/@else/',
+            '/@elseif\s?\(([\s\S]+)\)/',
+            '/@endif/',
+            '/@foreach\s?\(([\s\S]+)\)/',
+            '/@endforeach/',
+            '/@for\s?\(([\s\S]+)\)/',
+            '/@endfor/',
+            '/@while\s?\(([\s\S]+)\)/',
+            '/@endwhile/',
+            '/{{{\s([\$a-zA-Z_0-9\s:?]+)\s}}}/',
+            '/{{\s([\$a-zA-Z_0-9\s:?]+)\s}}/',
+            '/@php\s([\s\S]+)/'
         ];
 
         /**
