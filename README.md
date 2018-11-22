@@ -15,7 +15,7 @@ Using Composer:
 $ composer require davidecesarano/embryo-routing
 ```
 
-# Example
+## Example
 Create `Response` object, set views directory and compilers directory and create a `View` object. Render view with `render()` method  passing response, template and data. Finally, emit response.
 ```php
 use Embryo\Http\Emitter\Emitter;
@@ -40,4 +40,43 @@ $ cd example
 $ php -S localhost:8000
 ```
 
-# Usage
+## Usage
+
+### Create and render views
+If you want create a template with partials file, you can write this:
+```html
+<!-- header.php -->
+<html>
+    <head>
+        <title>{{ $title }}</title>
+    </head>
+    <body>
+```
+```html
+<!-- home.php -->
+@include('header'), ['title' => $title])
+    
+        <h1>{{ $title }}</h1>
+    
+    </body>
+</html>
+```
+In this example you can use `@include(filename, data)` for include header.php in home.php passing data to file. Embryo View will compile the file by replacing the alternative syntax in PHP code. Finally, you may display page with render:
+```php
+$response = $view->render($response, 'home', ['title' => 'Hello World!']);
+```
+
+### Display data
+You may display the contents of the name variable like so:
+```php
+{{ $name }} // <?php echo htmlentites($name); ?>
+```
+If you want display html content use like so:
+```php
+{{{ $html }}} // <?php echo $html; ?>
+```
+### If statements
+
+### Loops
+
+### PHP
