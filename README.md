@@ -1,4 +1,5 @@
 # Embryo View
+PHP template engine and renderer for PSR-7 response. 
 
 ## Features
 * PSR compatible.
@@ -69,15 +70,46 @@ $response = $view->render($response, 'home', ['title' => 'Hello World!']);
 
 ### Display data
 You may display the contents of the name variable like so:
-```php
+```
 {{ $name }} // echo htmlentites($name)
 ```
 If you want display html content use like so:
-```php
+```
 {{{ $html }}} // echo $html
 ```
 ### If statements
+You may construct if statements using the `@if`, `@elseif`, `@else`, and `@endif`: directives. 
+```
+@if ($status == 1)
+    Status is 1
+@elseif ($status == 2)
+    Status is 2
+@else
+    Status is {{ $status }}
+@endif
+```
 
 ### Loops
+Embryo View provides simple directives for working with PHP's loop structures (`for`, `foreach` and `while`):
+```
+@for ($i = 0; $i < 10; $i++)
+    Value is {{ $i }}
+@endfor
+
+@foreach ($users as $user)
+    User id is {{ $user->id }}
+@endforeach
+
+@while ($user = $users)
+    User id is {{ $user->id }}
+@endwhile
+```
 
 ### PHP
+You can use the @php directive to execute a block of plain PHP within your template:
+```
+@php 
+    $a = 1;
+    echo  $a; 
+@endphp
+```
