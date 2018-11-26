@@ -1,7 +1,7 @@
-@include('header', ['title' => 'Hello Worlds!'])
+@include('header', ['title' => $message])
 
 @if($status == 1)
-    <p>Hi, status 1.</p>
+    <p>Hi, status is 1.</p>
 @else 
     <p>Hi, other status.</p>
 @endif
