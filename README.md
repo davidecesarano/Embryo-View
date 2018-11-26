@@ -1,22 +1,23 @@
 # Embryo View
 
-# Features
+## Features
 * PSR compatible.
+* Alternative syntax.
 * Views compiled and cached until they are modified.
 
-# Requirements
+## Requirements
 * PHP >= 7.1
 * A [PSR-7](https://www.php-fig.org/psr/psr-7/) http message implementation and [PSR-17](https://www.php-fig.org/psr/psr-17/) http factory implementation (ex. [Embryo-Http](https://github.com/davidecesarano/Embryo-Http))
 * A PSR response emitter (ex. [Embryo-Emitter](https://github.com/davidecesarano/Embryo-Emitter))
 
-# Installation
+## Installation
 Using Composer:
 ```
 $ composer require davidecesarano/embryo-routing
 ```
 
 ## Example
-Create `Response` object, set views directory and compilers directory and create a `View` object. Render view with `render()` method  passing response, template and data. Finally, emit response.
+Create `Response` object, set `views` and `compilers` directory, create a `View` object. Render view with `render()` method  passing response, template and data. Finally, emit response.
 ```php
 use Embryo\Http\Emitter\Emitter;
 use Embryo\Http\Factory\{ResponseFactory, StreamFactory};
@@ -54,7 +55,7 @@ If you want create a template with partials file, you can write this:
 ```
 ```html
 <!-- home.php -->
-@include('header'), ['title' => $title])
+@include('header', ['title' => $title])
     
         <h1>{{ $title }}</h1>
     
@@ -69,11 +70,11 @@ $response = $view->render($response, 'home', ['title' => 'Hello World!']);
 ### Display data
 You may display the contents of the name variable like so:
 ```php
-{{ $name }} // <?php echo htmlentites($name); ?>
+{{ $name }} // echo htmlentites($name)
 ```
 If you want display html content use like so:
 ```php
-{{{ $html }}} // <?php echo $html; ?>
+{{{ $html }}} // echo $html
 ```
 ### If statements
 
