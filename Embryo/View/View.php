@@ -61,11 +61,11 @@
 
                 ob_start();
                 $this->include($template, $data);
-                                
-            } catch(\Throwable $e) {
-                throw $e;
-            } finally {
                 $output = ob_get_clean();
+
+            } catch(\Throwable $e) {
+                ob_end_clean();
+                throw $e;
             }
             
             $body = $response->getBody();
