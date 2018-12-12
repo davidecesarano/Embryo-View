@@ -5,6 +5,7 @@ PHP template engine and renderer for PSR-7 response.
 * PSR compatible.
 * Alternative syntax.
 * Views compiled and cached until they are modified.
+* PSR-15 middleware for minify html.
 
 ## Requirements
 * PHP >= 7.1
