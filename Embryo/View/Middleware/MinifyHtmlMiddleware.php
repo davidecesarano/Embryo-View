@@ -7,7 +7,7 @@
      * @link   https://github.com/davidecesarano/embryo-view 
      */
 
-    namespace App\Middleware;
+    namespace Embryo\View\Middleware;
     
     use Embryo\Http\Factory\StreamFactory;
     use Psr\Http\Message\{ServerRequestInterface, ResponseInterface};
