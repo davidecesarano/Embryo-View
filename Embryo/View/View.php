@@ -82,7 +82,7 @@
          * @param array $data
          * @return void
          */
-        public function include(string $template, array $data)
+        public function include(string $template, array $data = [])
         {
             if (isset($data['template'])) {
                 throw new \InvalidArgumentException("Duplicate template key found");
