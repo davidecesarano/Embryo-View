@@ -107,7 +107,7 @@ Embryo View provides simple directives for working with PHP's loop structures (`
 ```
 
 ### PHP
-You can use the @php directive to execute a block of plain PHP within your template:
+You can use the `@php` directive to execute a block of plain PHP within your template:
 ```
 @php 
     $a = 1;
