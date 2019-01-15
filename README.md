@@ -64,7 +64,7 @@ If you want create a template with partials file, you can write this:
     </body>
 </html>
 ```
-In this example you can use `@include(filename, data)` for include header.php in home.php passing data to file. Embryo View will compile the file by replacing the alternative syntax in PHP code. Finally, you may display page with render:
+In this example you can use `@include(filename, data);` for include header.php in home.php passing data to file. Embryo View will compile the file by replacing the alternative syntax in PHP code. Finally, you may display page with render:
 ```php
 $response = $view->render($response, 'home', ['title' => 'Hello World!']);
 ```
