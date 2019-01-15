@@ -15,7 +15,7 @@
          * @var array $find
          */
         private $find = [
-            '/@include\(([\s\S]+)\)/U',
+            '/@include\(([\s\S]+)\);/U',
             '/@if\s?\((.*)[(?=\))]/m',
             '/@else/U',
             '/@elseif\s?\((.*)[(?=\))]/m',
