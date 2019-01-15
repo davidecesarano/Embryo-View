@@ -15,7 +15,7 @@
          * @var array $find
          */
         private $find = [
-            '/@include\(([\s\S]+)\);/U',
+            '/@include\(([\s\S]+)(?<=\'\)|\]\)|\)\))/U',
             '/@if\s?\((.*)[(?=\))]/m',
             '/@else/U',
             '/@elseif\s?\((.*)[(?=\))]/m',
@@ -35,7 +35,7 @@
          * @var array $replace
          */
         private $replace = [
-            '<?php $this->include($1); ?>',
+            '<?php $this->include($1; ?>',
             '<?php if($1): ?>',
             '<?php else: ?>',
             '<?php elseif($1): ?>',
