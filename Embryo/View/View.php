@@ -35,16 +35,34 @@
         private $streamFactory;
 
         /**
-         * Set template path.
+         * @var string $extension
+         */
+        private $extension = 'embryo';
+
+        /**
+         * Set template path, compiler path and
+         * stream factory.
          * 
          * @param string $templatePath
-         * @return self
          */
         public function __construct(string $templatePath, string $compilerPath, StreamFactoryInterface $streamFactory = null)
         {
             $this->templatePath  = rtrim($templatePath, '/');
             $this->compilerPath  = rtrim($compilerPath, '/');
             $this->streamFactory = ($streamFactory) ? $streamFactory : new StreamFactory;
+        }
+
+        /**
+         * Set file pre extension.
+         *
+         * @example home.embryo.php
+         * @param string $extension
+         * @return self
+         */
+        public function setExtension(string $extension = 'embryo'): self
+        {
+            $this->extension = 'embryo';
+            return $this;
         }
         
         /**
