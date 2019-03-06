@@ -52,7 +52,7 @@
             '<?php endwhile; ?>',
             '<?php echo $1; ?>',
             '<?php echo htmlentities($1); ?>',
-            '<?php $1; ?>'
+            '<?php $1 ?>'
         ];
 
         /**
