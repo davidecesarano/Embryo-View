@@ -21,7 +21,7 @@
         protected function getContent(string $template): string
         {
             $extension = ($this->extension === '') ? '' : '.'.$this->extension;
-            $file      = $this->templatePath.'/'.$template.$extension.'.php';
+            $file      = $this->templatePath.DIRECTORY_SEPARATOR.$template.$extension.'.php';
             if (!is_file($file)) {
                 throw new \RuntimeException("View cannot render $file because the template does not exist");
             }
@@ -45,8 +45,8 @@
         protected function setContent(string $template, string $content): string
         {
             $extension    = ($this->extension === '') ? '' : '.'.$this->extension;
-            $templateFile = $this->templatePath.'/'.$template.$extension.'.php';
-            $compilerFile = $this->compilerPath.'/'.md5($template.$extension).'.php';
+            $templateFile = $this->templatePath.DIRECTORY_SEPARATOR.$template.$extension.'.php';
+            $compilerFile = $this->compilerPath.DIRECTORY_SEPARATOR.md5($template.$extension).'.php';
 
             if (!file_exists($compilerFile)) {
                 $stream = $this->streamFactory->createStreamFromFile($compilerFile, 'w');

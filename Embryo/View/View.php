@@ -37,7 +37,7 @@
         /**
          * @var string $extension
          */
-        private $extension = 'embryo';
+        private $extension = '';
 
         /**
          * Set template path, compiler path and
@@ -47,8 +47,8 @@
          */
         public function __construct(string $templatePath, string $compilerPath, StreamFactoryInterface $streamFactory = null)
         {
-            $this->templatePath  = rtrim($templatePath, '/');
-            $this->compilerPath  = rtrim($compilerPath, '/');
+            $this->templatePath  = rtrim($templatePath, DIRECTORY_SEPARATOR);
+            $this->compilerPath  = rtrim($compilerPath, DIRECTORY_SEPARATOR);
             $this->streamFactory = ($streamFactory) ? $streamFactory : new StreamFactory;
         }
 
@@ -59,9 +59,9 @@
          * @param string $extension
          * @return self
          */
-        public function setExtension(string $extension = 'embryo'): self
+        public function setExtension(string $extension = ''): self
         {
-            $this->extension = 'embryo';
+            $this->extension = $extension;
             return $this;
         }
         
