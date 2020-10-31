@@ -10,6 +10,7 @@
     namespace Embryo\View;
     
     use Embryo\Http\Factory\StreamFactory;
+    use Embryo\View\Exceptions\{InvalidTemplateDataException, TemplateRenderException, TemplateNotFoundException };
     use Embryo\View\Traits\{CompilerReplaceTrait, CompilerStreamTrait};
     use Psr\Http\Message\ResponseInterface;
     use Psr\Http\Message\StreamFactoryInterface;
@@ -25,7 +26,7 @@
         private $templatePath;
 
         /**
-         * @var string $templatePath
+         * @var string $compilerPath
          */
         private $compilerPath;
 
@@ -75,17 +76,9 @@
          */
         public function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
         {
-            try {
-
-                ob_start();
-                $this->include($template, $data);
-                $output = ob_get_clean();
-
-            } catch(\Throwable $e) {
-                ob_end_clean();
-                throw $e;
-            }
-            
+            ob_start();
+            $this->include($template, $data);
+            $output = ob_get_clean() ?: '';
             $body = $response->getBody();
             $body->write($output);
             return $response->withBody($body);
@@ -99,18 +92,27 @@
          * @param string $template
          * @param array $data
          * @return void
+         * @throws InvalidTemplateDataException
+         * @throws TemplateNotFoundException
+         * @throws TemplateRenderException
          */
         public function include(string $template, array $data = [])
         {
             if (isset($data['template'])) {
-                throw new \InvalidArgumentException("Duplicate template key found");
+                throw new InvalidTemplateDataException("Duplicate template key found");
             }
 
             $content = $this->getContent($template);
             $output  = $this->compile($content);
             $file    = $this->setContent($template, $output);
+            $templateFile = $this->getTemplateFile();
 
-            extract($data);
-            require $file;
+            try {
+                extract($data);
+                require $file;
+            } catch (\Throwable $e) {
+                throw new TemplateRenderException($e, $templateFile);
+            }
+            
         }
     }
