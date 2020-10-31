@@ -64,6 +64,7 @@
          */
         protected function compile(string $buffer): string
         {
-            return preg_replace($this->find, $this->replace, $buffer);
+            $replace = preg_replace($this->find, $this->replace, $buffer);
+            return $replace ?: '';
         }
     }

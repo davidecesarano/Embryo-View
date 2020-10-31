@@ -43,6 +43,7 @@
          */
         private function minify(string $content): string
         {
-            return preg_replace('/\s+/', ' ', $content);
+            $replace = preg_replace('/\s+/', ' ', $content);
+            return $replace ?: '';
         }
     }
