@@ -15,7 +15,7 @@ PHP template engine and renderer for PSR-7 response.
 ## Installation
 Using Composer:
 ```
-$ composer require davidecesarano/embryo-routing
+$ composer require davidecesarano/embryo-view
 ```
 
 ## Example
