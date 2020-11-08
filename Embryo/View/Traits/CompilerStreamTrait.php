@@ -24,18 +24,24 @@
          * @param string $template
          * @return string
          * @throws TemplateNotFoundException
+         * @throws TemplateCompilerException
          */
         protected function getContent(string $template): string
         {
             $extension = ($this->extension === '') ? '' : '.'.$this->extension;
             $file      = $this->templatePath.DIRECTORY_SEPARATOR.$template.$extension.'.php';
+            
             if (!is_file($file)) {
                 throw new TemplateNotFoundException("View cannot render $file because the template does not exist");
             }
-
             $this->setTemplateFile($file);
-            $stream = $this->streamFactory->createStreamFromFile($file, 'r');
-            return $stream->getContents();
+
+            try {
+                $stream = $this->streamFactory->createStreamFromFile($file, 'r');
+                return $stream->getContents();
+            } catch (\Exception $e) {
+                throw new TemplateCompilerException($e->getMessage());
+            }
         }        
 
         /**
@@ -49,6 +55,7 @@
          * @param string $template
          * @param string $content
          * @return string
+         * @throws TemplateCompilerException
          */
         protected function setContent(string $template, string $content): string
         {
@@ -69,12 +76,11 @@
                     $stream = $this->streamFactory->createStreamFromFile($compilerFile, 'w');
                     $stream->write($content);
                 }
+                return $stream->getMetadata('uri');
 
             } catch (\Exception $e) {
                 throw new TemplateCompilerException($e->getMessage());
             }
-
-            return $stream->getMetadata('uri');
         }
 
         /**
