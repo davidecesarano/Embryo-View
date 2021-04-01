@@ -111,6 +111,7 @@
                 extract($data);
                 require $file;
             } catch (\Throwable $e) {
+                ob_get_clean();
                 throw new TemplateRenderException($e, $templateFile);
             }
             
