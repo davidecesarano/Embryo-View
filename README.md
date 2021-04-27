@@ -36,13 +36,6 @@ $emitter = new Emitter;
 $emitter->emit($response);
 ```
 
-You may quickly test this using the built-in PHP server going to http://localhost:8000.
-
-```
-$ cd example
-$ php -S localhost:8000
-```
-
 ## Usage
 
 ### Create and render views
@@ -77,6 +70,10 @@ You may display the contents of the name variable like so:
 If you want display html content use like so:
 ```
 {{{ $html }}} // echo $html
+```
+If you use VueJs mustache templating, you may use like so:
+```
+@{{ myVar }} // echo {{ myVar }}
 ```
 ### If statements
 You may construct if statements using the `@if`, `@elseif`, `@else`, and `@endif` directives. 
