@@ -29,6 +29,7 @@
             '/@while\s?\((.*)[(?=\))]/m',
             '/@endwhile/U',
             '/{{{\s([\s\S]+)\s}}}/U',
+            '/@{{\s([\s\S]+)\s}}/U',
             '/{{\s([\s\S]+)\s}}/U',
             '/@php\s?([\s\S]+)@endphp/U'
         ];
@@ -51,6 +52,7 @@
             '<?php while($1): ?>',
             '<?php endwhile; ?>',
             '<?php echo $1; ?>',
+            '<?php echo html_entity_decode("&#123;&#123; $1 &#125;&#125;", ENT_QUOTES, "UTF-8"); ?>',
             '<?php echo htmlentities($1); ?>',
             '<?php $1 ?>'
         ];
